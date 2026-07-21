@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>ZerO-OneBit — Thiago Laranjeira · Technical Artist</title>
+    <meta name="description" content="Eu construo mundos que só existem dentro do computador — e ensino o computador a construí-los sozinho. Tech art, proceduralismo, digital twins, dados sintéticos." />
+    <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/brand/favicon-64.png" />
+    <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
+  </head>
+  <body>
+    <!-- intro scrollytelling: tela branca + seta; o scroll scrubba a animação do logo -->
+    <div id="intro" aria-hidden="true">
+      <div class="intro-stage">
+        <canvas id="intro-canvas" width="1484" height="579"></canvas>
+        <div class="intro-arrow">
+          <svg class="intro-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 8 L12 17 L20 8" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <header id="top">
+      <span class="brand"><img class="brand-img" src="/brand/favicon-64.png" alt="0:0" width="20" height="20" /> ZerO-OneBit</span>
+      <nav>
+        <a href="#reel" data-i18n="nav.reel">Reel</a>
+        <a href="#real" data-i18n="nav.real">Do virtual pro real</a>
+        <a href="#industrias" data-i18n="nav.industrias">Indústrias</a>
+        <a href="#prototipo" data-i18n="nav.prototipo">Protótipo</a>
+        <a href="#aprender" data-i18n="nav.aprender">Aprender</a>
+        <a href="#contato" data-i18n="nav.contato">Contato</a>
+        <button id="lang-toggle" title="switch language">EN</button>
+        <button id="theme-toggle" title="claro / escuro">☾</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ── HERO ─────────────────────────────────────────── -->
+      <section class="hero" id="mundos">
+        <p class="eyebrow reveal" data-i18n="hero.eyebrow">Thiago Laranjeira · Technical Artist · <em>Poppy Playtime</em> (Mob Entertainment)</p>
+        <h1 class="reveal" data-i18n="hero.h1">Eu construo mundos que<br />só existem dentro do computador.</h1>
+        <p class="lead reveal" data-i18n="hero.lead">
+          E ensino o computador a construí-los sozinho: em vez de fazer prato por prato,
+          eu escrevo a receita. Chama-se <strong>proceduralismo</strong> — cidades, florestas,
+          cenários inteiros, na escala que for preciso.
+        </p>
+        <div class="cta-row reveal">
+          <a class="cta" href="#reel" data-i18n="hero.cta1">▶ assistir o reel</a>
+          <a class="cta ghost" href="https://www.youtube.com/@ThiagoLaranjeiraZerooneBit/playlists" target="_blank" rel="noopener" data-i18n="hero.ctaPlaylists">playlists</a>
+          <a class="cta ghost" href="#impressao3d" data-i18n="hero.ctaPrint">impressão 3D</a>
+          <a class="cta ghost" href="#twins" data-i18n="hero.ctaTwins">twins &amp; splats</a>
+          <a class="cta ghost" href="#prototipo" data-i18n="hero.ctaProto">protótipo jogável</a>
+          <a class="cta ghost" href="#contato" data-i18n="hero.cta2">bora conversar</a>
+        </div>
+      </section>
+
+      <!-- ── REEL ─────────────────────────────────────────── -->
+      <section id="reel">
+        <p class="reveal" data-i18n="reel.p">
+          Três minutos do que essa caixa de ferramentas faz — jogos, scans, prints,
+          splats e céu estrelado:
+        </p>
+        <div class="game-embed reveal" id="reel-embed" data-src="https://www.youtube-nocookie.com/embed/uEIJHwW0Yig">
+          <button class="play-cta" id="reel-btn" data-i18n="reel.play">▶ ASSISTIR O REEL</button>
+          <p class="embed-hint" data-i18n="reel.hint">direto do YouTube · som recomendado</p>
+        </div>
+      </section>
+
+      <!-- ── MISSÃO: DUAS LÍNGUAS ─────────────────────────── -->
+      <section class="mission">
+        <p class="big-quote reveal" data-i18n="mission.quote">
+          O artista quer que fique <span class="hl">bonito</span>.
+          O engenheiro quer que <span class="hl">funcione</span>.
+          Eu vivo no meio dessa briga, servindo de tradutor.
+        </p>
+        <p class="mission-note reveal" data-i18n="mission.note">
+          No ecossistema todo — o artista, o engenheiro, a IA, os dados, o cliente —
+          meu papel é ser a cola: conectar peças que falam línguas diferentes
+          e fazer o conjunto funcionar de ponta a ponta.
+        </p>
+      </section>
+
+      <!-- ── DUAL AUDIENCE (estrutura Bismuth) ────────────── -->
+      <section class="dual">
+        <div class="dual-col reveal">
+          <h2 data-i18n="dual.studios.h2">Para estúdios &amp; indústrias</h2>
+          <ul>
+            <li data-i18n="dual.studios.1"><strong>Proceduralismo de produção</strong> — pipelines e ferramentas (Houdini, HDAs, engine) que geram conteúdo em escala, do jogo à simulação.</li>
+            <li data-i18n="dual.studios.2"><strong>Gêmeos digitais</strong> — escanear o mundo real (Gaussian Splatting, fotogrametria, drone) e reconstruí-lo fiel: teste no gêmeo antes de mexer no de verdade.</li>
+            <li data-i18n="dual.studios.3"><strong>Dados sintéticos pra IA</strong> — os mil acidentes que o carro autônomo precisa ver sem bater de verdade; cenários fabricados, realistas o bastante pra treinar máquinas.</li>
+          </ul>
+        </div>
+        <div class="dual-col reveal">
+          <h2 data-i18n="dual.artists.h2">Para artistas &amp; curiosos</h2>
+          <ul>
+            <li data-i18n="dual.artists.1"><strong>INDIE DUNGEONS: From Zero to Hero</strong> — curso de Houdini em português, do zero ao HDA completo. <!-- TODO: link Hotmart --></li>
+            <li data-i18n="dual.artists.2"><strong><a href="https://www.youtube.com/@ThiagoLaranjeiraZerooneBit" target="_blank" rel="noopener">HOUDINI GAME READY &amp; NODE A NODE</a></strong> — séries no YouTube: integração com Unreal e fundamentos, um node de cada vez.</li>
+            <li data-i18n="dual.artists.3"><strong>Astronomia de mesa de bar</strong> — aulas de céu e astrofotografia, porque ciência não devia morar só em laboratório.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ── DO VIRTUAL PRO REAL (coração) ────────────────── -->
+      <section class="real" id="real">
+        <h2 class="reveal"><span class="sec-num">01</span> <span data-i18n="real.h2">Do virtual pro real — e de volta</span></h2>
+        <p class="reveal" data-i18n="real.p">
+          A mágica não fica presa na telinha. Eu solto drone pra ver o mundo do jeito
+          que passarinho vê, uso scanners que transformam objeto de verdade em cópia
+          digital — e a impressora 3D faz o caminho contrário: cospe aquilo de volta
+          no mundo real.
+        </p>
+        <div class="real-grid">
+          <div class="real-card reveal">
+            <span class="real-icon">🏛</span>
+            <p data-i18n="real.card1">Museu guarda a peça antiga pra sempre — e quem não enxerga pode <strong>tocar na réplica</strong>.</p>
+            <a class="card-handle" href="/feed.html#primeira-camada">@primeira.camada ↗</a>
+          </div>
+          <div class="real-card reveal">
+            <span class="real-icon">👶</span>
+            <p data-i18n="real.card2">Uma mãe segura na mão o <strong>rostinho do bebê</strong> que ainda está na barriga.</p>
+            <a class="card-handle" href="/feed.html#artevital3d">@artevital3d ↗</a>
+          </div>
+          <div class="real-card reveal">
+            <span class="real-icon">🦾</span>
+            <p data-i18n="real.card3">Gente — e bicho também — ganha <strong>prótese sob medida</strong>, sem precisar vender um rim.</p>
+            <a class="card-handle" href="/feed.html#primeira-camada">@primeira.camada ↗</a>
+          </div>
+        </div>
+        <p class="big-quote accent reveal" data-i18n="real.quote">Tecnologia que serve pra abraçar,<br />não só pra impressionar.</p>
+      </section>
+
+      <!-- ── A MESMA CAIXA DE FERRAMENTAS (grid LMI) ──────── -->
+      <section class="toolbox" id="industrias">
+        <h2 class="reveal"><span class="sec-num">02</span> <span data-i18n="tb.h2">A mesma caixa de ferramentas</span></h2>
+        <p class="reveal" data-i18n="tb.p">
+          O que nasceu pra videogame e cinema virou ferramenta séria em indústrias que
+          não têm nada a ver com diversão. É o mesmo motor — servindo à emoção e à
+          indústria ao mesmo tempo.
+        </p>
+        <div class="tool-grid">
+          <div class="tool-card reveal"><h3 data-i18n="tb.1.h3">Jogos</h3><p data-i18n="tb.1.p">Mundos com monstro, floresta, tudo se mexendo — alguém ensina o computador a fazer funcionar.</p></div>
+          <div class="tool-card reveal"><h3 data-i18n="tb.2.h3">Cinema &amp; VFX</h3><p data-i18n="tb.2.p">As cenas impossíveis que parecem reais. A raiz de tudo, ainda viva.</p></div>
+          <div class="tool-card reveal"><h3 data-i18n="tb.3.h3">Projeção mapeada</h3><p data-i18n="tb.3.p">A fachada do prédio inteiro ganhando vida, em perfeita sincronia.</p></div>
+          <div class="tool-card reveal"><h3 data-i18n="tb.4.h3">Digital twins</h3><p data-i18n="tb.4.p">Cópia virtual, viva e fiel, de uma máquina, um prédio, uma fábrica — pra prever antes de mexer.</p></div>
+          <div class="tool-card reveal"><h3 data-i18n="tb.5.h3">Dados sintéticos</h3><p data-i18n="tb.5.p">Situações fabricadas no computador, realistas o bastante pra treinar IA como se tivessem acontecido.</p></div>
+          <div class="tool-card reveal"><h3 data-i18n="tb.6.h3">Medicina</h3><p data-i18n="tb.6.p">Reconstruir e analisar imagens: apontar o tumor que o olho deixa passar, planejar a cirurgia antes dela.</p></div>
+        </div>
+      </section>
+
+      <!-- ── IMPRESSÃO 3D ─────────────────────────────────── -->
+      <section id="impressao3d">
+        <h2 class="reveal"><span class="sec-num">03</span> <span data-i18n="print.h2">Impressão 3D — o caminho de volta</span></h2>
+        <p class="reveal" data-i18n="print.p">
+          O scanner traz o mundo pra dentro do computador; a impressora devolve.
+          FDM e resina, do protótipo funcional à peça que emociona — é aqui que a
+          tecnologia vira coisa que a gente segura na mão.
+        </p>
+        <ul class="reveal">
+          <li data-i18n="print.1"><strong>Réplicas de acervo</strong> — museus preservam a peça original e ganham cópias táteis, que todo mundo pode tocar.</li>
+          <li data-i18n="print.2"><strong><a href="https://www.instagram.com/artevital3d" target="_blank" rel="noopener">Arte Vital 3D</a></strong> — o ultrassom vira o rostinho do bebê, emoldurado, na mão da mãe antes do parto.</li>
+          <li data-i18n="print.3"><strong>Próteses sob medida</strong> — pra gente e pra bicho, no preço que cabe na vida real.</li>
+          <li data-i18n="print.4"><strong><a href="https://www.instagram.com/primeira.camada" target="_blank" rel="noopener">Primeira Camada</a></strong> — peças e produtos: do case do drone ao suporte do telescópio, desenhado, fatiado, impresso.</li>
+        </ul>
+        <p class="media-links reveal">
+          <!-- TODO: trocar pelo link da playlist dedicada quando existir -->
+          <a class="cta ghost small" href="https://www.youtube.com/@ThiagoLaranjeiraZerooneBit" target="_blank" rel="noopener" data-i18n="print.link">ver impressão 3D no canal ↗</a>
+          <a class="cta ghost small" href="/feed.html" data-i18n="print.mosaic">mosaico do Instagram</a>
+        </p>
+      </section>
+
+      <!-- ── DIGITAL TWINS & GAUSSIAN SPLATTING ───────────── -->
+      <section id="twins">
+        <h2 class="reveal"><span class="sec-num">04</span> <span data-i18n="twins.h2">Digital twins &amp; Gaussian Splatting</span></h2>
+        <p class="reveal" data-i18n="twins.p">
+          Uma cópia virtual, viva e fiel, de algo que existe de verdade — uma máquina,
+          um prédio, uma linha de produção. Com Gaussian Splatting, o escaneamento
+          reconstrói o ambiente com realismo quase indistinguível de foto. Aí você
+          testa no gêmeo antes de mexer no de verdade.
+        </p>
+        <ul class="reveal">
+          <li data-i18n="twins.1"><strong>Captura</strong> — drone, fotogrametria, LiDAR, 360°: o mundo real vira dado.</li>
+          <li data-i18n="twins.2"><strong>Reconstrução</strong> — Gaussian Splatting e fotogrametria transformam captura em cena 3D navegável.</li>
+          <li data-i18n="twins.3"><strong>Simulação</strong> — descobrir onde a peça falha, como o ar circula, o que acontece se algo der errado. Sem risco, sem custo físico.</li>
+        </ul>
+        <p class="media-links reveal">
+          <!-- TODO: trocar pelo link da playlist dedicada quando existir -->
+          <a class="cta ghost small" href="https://www.youtube.com/@ThiagoLaranjeiraZerooneBit" target="_blank" rel="noopener" data-i18n="twins.link">ver splats &amp; scans no canal ↗</a>
+        </p>
+      </section>
+
+      <!-- ── DADOS SINTÉTICOS & IA ────────────────────────── -->
+      <section id="ia">
+        <h2 class="reveal"><span class="sec-num">05</span> <span data-i18n="synth.h2">Dados sintéticos &amp; IA</span></h2>
+        <p class="reveal" data-i18n="synth.p">
+          Máquinas aprendem vendo exemplos — mas ninguém vai bater um carro autônomo
+          mil vezes pra ele aprender a desviar. Então a gente fabrica os exemplos:
+          cenários virtuais, realistas o bastante pra treinar a IA como se tivessem
+          acontecido. Vale pra carros, robôs e medicina — apontar o tumor que o olho
+          deixa passar, planejar a cirurgia antes dela existir.
+        </p>
+        <p class="media-links reveal">
+          <!-- TODO: trocar pelo link da playlist dedicada quando existir -->
+          <a class="cta ghost small" href="https://www.youtube.com/@ThiagoLaranjeiraZerooneBit" target="_blank" rel="noopener" data-i18n="synth.link">ver experimentos de CV &amp; ML no canal ↗</a>
+        </p>
+      </section>
+
+      <!-- ── PROTÓTIPO JOGÁVEL ────────────────────────────── -->
+      <section id="prototipo">
+        <h2 class="reveal"><span class="sec-num">06</span> <span data-i18n="proto.h2">Mostrar &gt; contar — protótipo jogável</span></h2>
+        <p class="reveal" data-i18n="proto.p">
+          <strong>Chapada Escapade</strong>: arcade 2D onde uma nave alienígena sequestra
+          vacas no Cerrado. Terreno procedural, sprites gerados por IA com pipeline
+          próprio, clima dinâmico. Tudo que este site prega, rodando no teu browser:
+        </p>
+        <div class="game-embed reveal" id="game-embed">
+          <button class="play-cta" id="play-btn" data-i18n="proto.play">▶ JOGAR AGORA</button>
+          <p class="embed-hint" data-i18n="proto.hint">primeiro boot leva ~30s · WASD ou mouse · melhor no desktop</p>
+        </div>
+        <p class="embed-links reveal">
+          <a href="https://zeroonebit.github.io/chapada-escapade/" target="_blank" rel="noopener" data-i18n="proto.full">abrir em tela cheia ↗</a>
+        </p>
+      </section>
+
+      <!-- ── PROFESSOR ENRUSTIDO ──────────────────────────── -->
+      <section class="teach" id="aprender">
+        <h2 class="reveal"><span class="sec-num">07</span> <span data-i18n="teach.h2">Professor enrustido</span></h2>
+        <p class="reveal" data-i18n="teach.p">
+          No tempo livre eu dou aula de astronomia e de como fotografar estrela, galáxia,
+          essas coisas lá de cima que fazem a gente se sentir pequenininho — no bom
+          sentido. Ciência devia ser assunto de mesa de bar. OLÁ RUDINHOS E RUDINHAS S2!
+        </p>
+        <ul class="reveal">
+          <li data-i18n="teach.1"><strong>INDIE DUNGEONS</strong> — Houdini do zero ao HDA, em português <!-- TODO: link Hotmart --></li>
+          <li data-i18n="teach.2"><strong><a href="https://www.youtube.com/playlist?list=PL4mSf1t7Hmopns-ADNlVlGlQZE4y0RLmN" target="_blank" rel="noopener">HOUDINI GAME READY</a></strong> — Houdini + Unreal na prática</li>
+          <li data-i18n="teach.3"><strong><a href="https://www.youtube.com/playlist?list=PL4mSf1t7HmorSlefxEWGTAWMVtqwMIj8T" target="_blank" rel="noopener">HOUDINI NODE A NODE</a></strong> — fundamentos, um node por vez</li>
+        </ul>
+      </section>
+
+      <!-- ── FECHAMENTO + CONTATO ─────────────────────────── -->
+      <section class="closing" id="contato">
+        <p class="big-quote reveal" data-i18n="closing.quote">
+          Ferramenta boa é a que a gente<br />
+          <span class="hl">esquece que está usando.</span>
+        </p>
+        <p class="reveal" data-i18n="closing.p">É esse bastidor invisível que eu construo. Difícil de explicar no churrasco — mas eu juro que é divertido.</p>
+        <ul class="contact-list reveal">
+          <li><a href="https://www.youtube.com/@ThiagoLaranjeiraZerooneBit" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://artstation.com/zeroonebit" target="_blank" rel="noopener">ArtStation</a></li>
+          <li><a href="https://instagram.com/zeroonebit" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://facebook.com/zeroonebitstudio" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://twitch.tv/zeroonebit" target="_blank" rel="noopener">Twitch</a></li>
+          <li><a href="https://sketchfab.com/zeroonebit" target="_blank" rel="noopener">Sketchfab</a></li>
+          <li>Email <!-- TODO --></li>
+          <li>LinkedIn <!-- TODO --></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <span data-i18n="footer.text">0:0 ZerO-OneBit · transformando imaginação em coisa de verdade</span>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
