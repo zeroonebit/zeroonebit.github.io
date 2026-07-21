@@ -23,7 +23,7 @@ if (!reducedMotion) {
   // browser sem engajamento prévio (mobile sempre) — só toca após um gesto.
   const sfx = new Audio('/brand/logo-sound.mp3')
   sfx.preload = 'auto'
-  sfx.volume = 0.7
+  sfx.volume = 0.35
 
   const draw = (frame: number) => {
     curFrame = frame
