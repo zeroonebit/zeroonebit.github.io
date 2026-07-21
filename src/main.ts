@@ -19,18 +19,11 @@ if (!reducedMotion) {
 
   let curFrame = 0
 
-  // som da marca (5.wav): tenta junto com a animação; autoplay sem gesto
-  // costuma ser bloqueado — fallback no primeiro gesto ENQUANTO anima.
+  // som da marca (5.wav). Autoplay de áudio é bloqueado no load em TODO
+  // browser sem engajamento prévio (mobile sempre) — só toca após um gesto.
   const sfx = new Audio('/brand/logo-sound.mp3')
   sfx.preload = 'auto'
   sfx.volume = 0.7
-  let sfxDone = false
-  const trySfx = () => {
-    if (sfxDone) return
-    sfxDone = true
-    sfx.currentTime = 0
-    sfx.play().catch(() => { sfxDone = false })
-  }
 
   const draw = (frame: number) => {
     curFrame = frame
@@ -65,20 +58,23 @@ if (!reducedMotion) {
     if (t < 1) requestAnimationFrame(step)
     else finish()
   }
-  const begin = () => { resize(); draw(0); trySfx(); requestAnimationFrame(step) }
+  const begin = () => { resize(); draw(0); sfx.play().catch(() => {}); requestAnimationFrame(step) }
   if (sheet.complete) begin()
   else sheet.onload = begin
 
-  // MOBILE bloqueia autoplay de áudio SEMPRE. O 1º gesto real do usuário
-  // (toque/scroll/tecla) libera e dispara o som — uma vez. No mobile o
-  // gesto costuma vir logo no início do scroll, então casa com a animação.
-  const gestureEvents = ['pointerdown', 'touchstart', 'keydown', 'wheel'] as const
-  const onFirstGesture = () => {
-    trySfx()
-    for (const ev of gestureEvents) window.removeEventListener(ev, onFirstGesture)
+  // Destrava o som no 1º gesto do usuário. CRÍTICO: só remove os listeners
+  // quando o play() REALMENTE começa — um gesto que o iOS não reconhece
+  // (ex.: pointerdown) não pode gastar a única chance. touchend/click
+  // desbloqueiam iOS; wheel/keydown cobrem o desktop.
+  const gestureEvents = ['touchend', 'click', 'keydown', 'wheel'] as const
+  const disarm = () => { for (const ev of gestureEvents) window.removeEventListener(ev, unlockSfx) }
+  const unlockSfx = () => {
+    if (!sfx.paused && sfx.currentTime > 0.05) { disarm(); return } // autoplay já pegou
+    sfx.currentTime = 0
+    sfx.play().then(disarm).catch(() => { /* mantém armado pro próximo gesto */ })
   }
   for (const ev of gestureEvents) {
-    window.addEventListener(ev, onFirstGesture, { passive: true })
+    window.addEventListener(ev, unlockSfx, { passive: true })
   }
   // rolou antes de acabar? pula pro final — ninguém fica refém do intro
   window.addEventListener('scroll', () => {
