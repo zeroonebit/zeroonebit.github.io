@@ -293,6 +293,12 @@ footer {
   color: var(--dim); letter-spacing: 0.05em;
   border-top: 1px solid var(--line);
 }
+.footer-logo { width: 132px; height: auto; display: block; margin-bottom: 0.9rem; border-radius: 8px; }
+/* no tema escuro os óculos pretos do logo sumiriam — chip claro discreto atrás */
+html[data-theme='dark'] .footer-logo {
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0.5rem 0.7rem;
+}
 
 @media (max-width: 640px) {
   .hero { padding: 3rem 0 2.5rem; }

@@ -117,7 +117,7 @@ const EN: Record<string, string> = {
   'closing.p':
     'That invisible backstage is what I build. Hard to explain at a barbecue — but I swear it’s fun.',
 
-  'footer.text': '0:0 ZerO-OneBit · turning imagination into real things',
+  'footer.text': 'your personal geek with creative solutions, turning imagination into reality',
 }
 
 const PT: Record<string, string> = {}
