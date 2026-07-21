@@ -118,9 +118,13 @@ NÃO usar KEYFINAL, tem lixo de matte). Processo: PIL normaliza alpha ×255/208 
   Pages. Mesmo fluxo do Chapada: editou, commitou, push, ~1min no ar
 - Identidade git LOCAL do repo: Thiago Laranjeira / laranjeira.thico@gmail.com (igual Chapada)
 - Backups zip, .claude/ e tsbuildinfo ficam FORA do repo (.gitignore)
-- **Domínio próprio (GoDaddy) PENDENTE**: falta ele dizer QUAL domínio → aí: arquivo
-  `public/CNAME` com o domínio + na GoDaddy: A records do @ → 185.199.108.153 / .109. /
-  .110. / .111.153 e CNAME www → zeroonebit.github.io + Enforce HTTPS em Settings→Pages
+- **Domínios (2026-07-21)**: principal = **zero-onebit.com** ✅ DNS configurado na GoDaddy
+  (4 A @ → 185.199.108/109/110/111.153 + CNAME www → zeroonebit.github.io), propagou rápido,
+  HTTP responde 200. HTTPS: cert TLS em provisionamento automático pelo GitHub (poller liga
+  o Enforce assim que sair). E-mail do domínio preservado (MX/email.secureserver intactos).
+  **thiagolaranjeira.com** = redirect 301 na GoDaddy Forwarding → https://zero-onebit.com
+  (PENDENTE — ele ainda vai fazer). **indiedungeons.com** = RESERVADO pra plataforma de
+  conteúdo futura.
 
 ## Próximos passos (não fazer sem pedir)
 - Configurar domínio GoDaddy (ver seção acima — aguardando ele dizer qual domínio)
