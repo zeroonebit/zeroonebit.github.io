@@ -81,17 +81,31 @@ html.intro-playing .intro-cue { opacity: 0; pointer-events: none; }
 .intro-chevron {
   width: clamp(64px, 9vw, 96px); height: auto;
   color: var(--blue-ink);
-  animation: arrow-bounce 1.4s ease-in-out infinite, cue-color 4.2s infinite; /* 1 cor por bounce */
+  animation:
+    arrow-bounce 1.4s ease-in-out infinite,
+    cue-color 4.5s linear infinite,
+    cue-fade 4.5s ease-in-out infinite;
 }
 @keyframes arrow-bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(12px); }
 }
-/* cores sampladas da marca: azul do "BiT", preto/ink dos óculos, laranja */
+/* cores da marca (azul / preto-ink / laranja): a cor troca no instante em
+   que a seta fica quase transparente (cue-fade) — só se vê a transparência
+   entrando e saindo entre cores limpas, sem blend sujo */
 @keyframes cue-color {
-  0%, 33.3%    { color: #02c8fd; }
-  33.4%, 66.6% { color: var(--fg); }
-  66.7%, 100%  { color: #f7941d; }
+  0%, 30%   { color: #02c8fd; }
+  36%, 63%  { color: var(--fg); }
+  69%, 100% { color: #f7941d; }
+}
+@keyframes cue-fade {
+  0%   { opacity: 0.12; }
+  16%  { opacity: 1; }
+  33%  { opacity: 0.12; }
+  50%  { opacity: 1; }
+  66%  { opacity: 0.12; }
+  83%  { opacity: 1; }
+  100% { opacity: 0.12; }
 }
 
 /* ---------- header (banner com a marca centralizada) ---------- */
