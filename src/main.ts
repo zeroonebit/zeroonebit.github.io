@@ -3,9 +3,9 @@ import { capturePt, applyLang, initialLang, type Lang } from './i18n'
 
 const GAME_URL = 'https://zeroonebit.github.io/chapada-escapade/'
 
-// ── intro TAP-DRIVEN: tela em branco com a seta no meio; o TOQUE dispara
-// a animação do logo + o som JUNTOS (o gesto libera o áudio no mobile);
-// ao terminar, o header entra e a pessoa rola pro site. ──
+// ── intro OVERLAY: tela cheia com só a seta central (piscando nas cores da
+// marca). O clique/toque dispara os frames do logo + o som JUNTOS (o gesto
+// libera o áudio no mobile) e, ao terminar, o overlay some e revela a página. ──
 // frames 33-100 do render original (1-32 são vazios)
 const SHEET = { src: '/brand/logo-sheet.webp', cols: 8, frames: 68, fw: 1484, fh: 579 }
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -39,7 +39,14 @@ if (!reducedMotion) {
     if (curFrame >= 0 && sheet.complete) draw(curFrame) // só redesenha depois que começou
   }
   window.addEventListener('resize', resize)
-  resize() // dimensiona o canvas; NÃO desenha nada (tela em branco + seta central)
+  resize() // dimensiona o canvas; NÃO desenha nada (só a seta central aparece)
+
+  // ao terminar os frames: segura o logo um instante, some com o overlay e
+  // revela a página (sem esperar scroll/arrasto)
+  const jumpToPage = () => {
+    html.classList.add('intro-done')                          // dispara o fade do overlay (CSS)
+    setTimeout(() => html.classList.add('intro-hidden'), 500) // display:none após o fade
+  }
 
   const DUR = (SHEET.frames / 25) * 1000 // ~2.7s a 25fps
   let start = 0
@@ -49,45 +56,25 @@ if (!reducedMotion) {
     const frame = Math.round(t * (SHEET.frames - 1))
     if (frame !== curFrame) draw(frame)
     if (t < 1) requestAnimationFrame(step)
-    else html.classList.add('intro-done') // header entra + seta de scroll aparece
+    else setTimeout(jumpToPage, 450) // segura o logo ~0.45s, depois salta pra página
   }
 
   let started = false
-  // TOQUE/clique/tecla → toca a animação COM o som (o play() aqui, dentro do
-  // gesto, é o que desbloqueia o áudio no celular)
+  const playEvents = ['click', 'keydown'] as const
   const play = () => {
     if (started) return
     started = true
-    html.classList.add('intro-playing') // esconde a seta central de "toque"
+    html.classList.add('intro-playing') // esconde a seta central
     sfx.currentTime = 0
     sfx.play().catch(() => {})
     start = 0
     const run = () => requestAnimationFrame(step)
     if (sheet.complete) run(); else sheet.onload = run
-    cleanup()
-  }
-  // rolou/deslizou antes de tocar → pula direto pro site (sem som), sem refém
-  const skip = () => {
-    if (started) return
-    started = true
-    html.classList.add('intro-playing')
-    const end = () => { draw(SHEET.frames - 1); html.classList.add('intro-done') }
-    if (sheet.complete) end(); else sheet.onload = end
-    cleanup()
-  }
-  const playEvents = ['click', 'keydown'] as const
-  const skipEvents = ['wheel', 'touchmove'] as const
-  const onScroll = () => { if (window.scrollY > window.innerHeight * 0.12) skip() }
-  const cleanup = () => {
     for (const ev of playEvents) window.removeEventListener(ev, play)
-    for (const ev of skipEvents) window.removeEventListener(ev, skip)
-    window.removeEventListener('scroll', onScroll)
   }
   for (const ev of playEvents) window.addEventListener(ev, play, { passive: true })
-  for (const ev of skipEvents) window.addEventListener(ev, skip, { passive: true })
-  window.addEventListener('scroll', onScroll, { passive: true })
 } else {
-  document.documentElement.classList.add('intro-done')
+  document.documentElement.classList.add('intro-done', 'intro-hidden')
 }
 
 // ── idioma: PT vem do HTML, EN do dicionário; botão alterna e persiste ──

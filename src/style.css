@@ -45,52 +45,53 @@ html, body { background: var(--bg); color: var(--fg); font-family: var(--sans); 
 .reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
-/* ---------- intro scrollytelling ---------- */
+/* ---------- intro overlay ---------- */
 #intro { display: none; }
-html.intro-on #intro { display: block; height: 100vh; height: 100svh; }
-.intro-stage {
-  position: relative; height: 100vh; height: 100svh; /* svh = viewport visível no mobile (fora a barra do navegador) */
-  display: flex; align-items: center; justify-content: center;
+html.intro-on #intro {
+  display: block; position: fixed; inset: 0; z-index: 50;
   background: var(--bg);
+  transition: opacity 0.45s ease;
 }
-.intro-mark { position: relative; width: min(92vw, 1100px); }
+html.intro-done #intro { opacity: 0; pointer-events: none; } /* fade-out ao terminar os frames */
+html.intro-hidden #intro { display: none; }
+/* trava o scroll enquanto o overlay está na frente */
+html.intro-on:not(.intro-done) body { overflow: hidden; }
+
+.intro-stage {
+  position: relative; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
 #intro-canvas {
-  width: 100%;
+  width: min(92vw, 1100px);
   aspect-ratio: 1484 / 579;
   height: auto; display: block;
 }
-/* seta COLADA embaixo da marca: top:100% = base do canvas; margin-top = respiro
-   (~0.7× a altura da própria seta, contando o padding transparente do canvas) */
-.intro-arrow {
-  position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-  margin-top: 0.4rem;
-  display: flex; justify-content: center;
-  color: var(--fg);
-  opacity: 0; /* só aparece quando a animação termina */
-  transition: opacity 0.7s ease;
-  pointer-events: none;
-}
-html.intro-done .intro-arrow { opacity: 1; }
 
-/* seta central de "TOQUE": estado inicial (tela em branco). Some quando
-   a animação começa (intro-playing). Clicar em QUALQUER lugar também toca. */
+/* seta central de "TOQUE": pisca nas cores da marca a cada bounce (azul →
+   preto/ink → laranja). Some quando a animação começa (intro-playing). */
 .intro-cue {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  background: none; border: none; margin: 0; padding: 1.4rem;
-  cursor: pointer; color: var(--blue-ink); line-height: 0;
-  opacity: 1; transition: opacity 0.4s ease;
+  background: none; border: none; margin: 0; padding: 1.6rem;
+  cursor: pointer; line-height: 0;
+  opacity: 1; transition: opacity 0.35s ease;
 }
 html.intro-playing .intro-cue { opacity: 0; pointer-events: none; }
-.intro-cue .intro-chevron { width: clamp(78px, 14vw, 130px); }
+.intro-cue .intro-chevron { width: clamp(84px, 15vw, 140px); }
 
 .intro-chevron {
   width: clamp(64px, 9vw, 96px); height: auto;
   color: var(--blue-ink);
-  animation: arrow-bounce 1.4s ease-in-out infinite;
+  animation: arrow-bounce 1.4s ease-in-out infinite, cue-color 4.2s infinite; /* 1 cor por bounce */
 }
 @keyframes arrow-bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(12px); }
+}
+/* cores sampladas da marca: azul do "BiT", preto/ink dos óculos, laranja */
+@keyframes cue-color {
+  0%, 33.3%    { color: #02c8fd; }
+  33.4%, 66.6% { color: var(--fg); }
+  66.7%, 100%  { color: #f7941d; }
 }
 
 /* ---------- header (banner com a marca centralizada) ---------- */
@@ -103,10 +104,8 @@ html.intro-playing .intro-cue { opacity: 0; pointer-events: none; }
   border-bottom: 1px solid var(--line);
   font-family: var(--mono); font-size: 0.78rem;
   letter-spacing: 0.06em; text-transform: uppercase;
-  transition: transform 0.6s ease;
 }
-/* durante o intro o header fica escondido; entra quando a animação completa */
-html.intro-on:not(.intro-done) #top { transform: translateY(-105%); }
+/* header fica atrás do overlay do intro (z-index) — some sozinho junto com ele */
 .brand {
   display: inline-flex; align-items: center; flex-shrink: 0;
   line-height: 0; border-radius: 6px;
