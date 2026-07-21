@@ -21,7 +21,7 @@ if (!reducedMotion) {
 
   const sfx = new Audio('/brand/logo-sound.mp3')
   sfx.preload = 'auto'
-  sfx.volume = 0.35
+  sfx.volume = 0.1
 
   let curFrame = -1
   const draw = (frame: number) => {
