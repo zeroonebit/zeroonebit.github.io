@@ -112,13 +112,22 @@ NÃO usar KEYFINAL, tem lixo de matte). Processo: PIL normaliza alpha ×255/208 
   token 60 dias) — decisão adiada; alternativa futura: GitHub Action baking JSON.
 - Permalinks colhidos via browser dos perfis públicos em 2026-07-20.
 
+## Git + Deploy (2026-07-21) ✅
+- Repo: **github.com/zeroonebit/zeroonebit.github.io** (user site → URL raiz), branch main
+- Deploy: GitHub Actions (`.github/workflows/deploy.yml`) — push em main → npm ci + build →
+  Pages. Mesmo fluxo do Chapada: editou, commitou, push, ~1min no ar
+- Identidade git LOCAL do repo: Thiago Laranjeira / laranjeira.thico@gmail.com (igual Chapada)
+- Backups zip, .claude/ e tsbuildinfo ficam FORA do repo (.gitignore)
+- **Domínio próprio (GoDaddy) PENDENTE**: falta ele dizer QUAL domínio → aí: arquivo
+  `public/CNAME` com o domínio + na GoDaddy: A records do @ → 185.199.108.153 / .109. /
+  .110. / .111.153 e CNAME www → zeroonebit.github.io + Enforce HTTPS em Settings→Pages
+
 ## Próximos passos (não fazer sem pedir)
+- Configurar domínio GoDaddy (ver seção acima — aguardando ele dizer qual domínio)
 - Link Hotmart do INDIE DUNGEONS (teach.1 + dual.artists.1)
 - Email e LinkedIn no #contato (TODOs restantes)
 - Playlists DEDICADAS de impressão 3D / splats / ML quando existirem — hoje os botões das
   seções 03/04/05 apontam pro canal (TODO comentado no HTML)
-- `git init` + primeiro commit (projeto ainda sem versionamento — backups em `_backup_*.zip`)
-- Deploy (GitHub Pages ou Vercel) + decidir URL raiz zeroonebit.github.io
 - Poster/screenshot do jogo como fundo do embed antes do play
 - "Portfolio Mode" dentro do próprio jogo (proposta pausada — ver memória chapada-portfolio-mode)
 
