@@ -3,28 +3,27 @@ import { capturePt, applyLang, initialLang, type Lang } from './i18n'
 
 const GAME_URL = 'https://zeroonebit.github.io/chapada-escapade/'
 
-// ── intro: a animação do logo TOCA SOZINHA no load (2.7s, som junto);
-// ao terminar, TL:01:ZB + seta aparecem convidando a rolar pra página ──
+// ── intro TAP-DRIVEN: tela em branco com a seta no meio; o TOQUE dispara
+// a animação do logo + o som JUNTOS (o gesto libera o áudio no mobile);
+// ao terminar, o header entra e a pessoa rola pro site. ──
 // frames 33-100 do render original (1-32 são vazios)
 const SHEET = { src: '/brand/logo-sheet.webp', cols: 8, frames: 68, fw: 1484, fh: 579 }
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
 
 if (!reducedMotion) {
-  document.documentElement.classList.add('intro-on')
+  const html = document.documentElement
+  html.classList.add('intro-on')
   const canvas = document.querySelector<HTMLCanvasElement>('#intro-canvas')!
   const ctx = canvas.getContext('2d')!
   ctx.imageSmoothingQuality = 'high'
   const sheet = new Image()
   sheet.src = SHEET.src
 
-  let curFrame = 0
-
-  // som da marca (5.wav). Autoplay de áudio é bloqueado no load em TODO
-  // browser sem engajamento prévio (mobile sempre) — só toca após um gesto.
   const sfx = new Audio('/brand/logo-sound.mp3')
   sfx.preload = 'auto'
   sfx.volume = 0.35
 
+  let curFrame = -1
   const draw = (frame: number) => {
     curFrame = frame
     const sx = (frame % SHEET.cols) * SHEET.fw
@@ -32,54 +31,61 @@ if (!reducedMotion) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.drawImage(sheet, sx, sy, SHEET.fw, SHEET.fh, 0, 0, canvas.width, canvas.height)
   }
-
   const resize = () => {
     const dpr = Math.min(devicePixelRatio || 1, 2)
     const w = canvas.clientWidth
     canvas.width = Math.round(w * dpr)
     canvas.height = Math.round(w * (SHEET.fh / SHEET.fw) * dpr)
-    if (sheet.complete) draw(curFrame)
+    if (curFrame >= 0 && sheet.complete) draw(curFrame) // só redesenha depois que começou
   }
   window.addEventListener('resize', resize)
+  resize() // dimensiona o canvas; NÃO desenha nada (tela em branco + seta central)
 
-  const DUR = (SHEET.frames / 25) * 1000 // ~2.7s a 25fps — mesma janela do som
-  const finish = () => {
-    if (document.documentElement.classList.contains('intro-done')) return
-    if (sheet.complete) draw(SHEET.frames - 1)
-    document.documentElement.classList.add('intro-done')
-  }
+  const DUR = (SHEET.frames / 25) * 1000 // ~2.7s a 25fps
   let start = 0
   const step = (ts: number) => {
-    if (document.documentElement.classList.contains('intro-done')) return
     if (!start) start = ts
     const t = Math.min(1, (ts - start) / DUR)
     const frame = Math.round(t * (SHEET.frames - 1))
     if (frame !== curFrame) draw(frame)
     if (t < 1) requestAnimationFrame(step)
-    else finish()
+    else html.classList.add('intro-done') // header entra + seta de scroll aparece
   }
-  const begin = () => { resize(); draw(0); sfx.play().catch(() => {}); requestAnimationFrame(step) }
-  if (sheet.complete) begin()
-  else sheet.onload = begin
 
-  // Destrava o som no 1º gesto do usuário. CRÍTICO: só remove os listeners
-  // quando o play() REALMENTE começa — um gesto que o iOS não reconhece
-  // (ex.: pointerdown) não pode gastar a única chance. touchend/click
-  // desbloqueiam iOS; wheel/keydown cobrem o desktop.
-  const gestureEvents = ['touchend', 'click', 'keydown', 'wheel'] as const
-  const disarm = () => { for (const ev of gestureEvents) window.removeEventListener(ev, unlockSfx) }
-  const unlockSfx = () => {
-    if (!sfx.paused && sfx.currentTime > 0.05) { disarm(); return } // autoplay já pegou
+  let started = false
+  // TOQUE/clique/tecla → toca a animação COM o som (o play() aqui, dentro do
+  // gesto, é o que desbloqueia o áudio no celular)
+  const play = () => {
+    if (started) return
+    started = true
+    html.classList.add('intro-playing') // esconde a seta central de "toque"
     sfx.currentTime = 0
-    sfx.play().then(disarm).catch(() => { /* mantém armado pro próximo gesto */ })
+    sfx.play().catch(() => {})
+    start = 0
+    const run = () => requestAnimationFrame(step)
+    if (sheet.complete) run(); else sheet.onload = run
+    cleanup()
   }
-  for (const ev of gestureEvents) {
-    window.addEventListener(ev, unlockSfx, { passive: true })
+  // rolou/deslizou antes de tocar → pula direto pro site (sem som), sem refém
+  const skip = () => {
+    if (started) return
+    started = true
+    html.classList.add('intro-playing')
+    const end = () => { draw(SHEET.frames - 1); html.classList.add('intro-done') }
+    if (sheet.complete) end(); else sheet.onload = end
+    cleanup()
   }
-  // rolou antes de acabar? pula pro final — ninguém fica refém do intro
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > window.innerHeight * 0.25) finish()
-  }, { passive: true })
+  const playEvents = ['click', 'keydown'] as const
+  const skipEvents = ['wheel', 'touchmove'] as const
+  const onScroll = () => { if (window.scrollY > window.innerHeight * 0.12) skip() }
+  const cleanup = () => {
+    for (const ev of playEvents) window.removeEventListener(ev, play)
+    for (const ev of skipEvents) window.removeEventListener(ev, skip)
+    window.removeEventListener('scroll', onScroll)
+  }
+  for (const ev of playEvents) window.addEventListener(ev, play, { passive: true })
+  for (const ev of skipEvents) window.addEventListener(ev, skip, { passive: true })
+  window.addEventListener('scroll', onScroll, { passive: true })
 } else {
   document.documentElement.classList.add('intro-done')
 }
