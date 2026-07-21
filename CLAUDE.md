@@ -116,6 +116,10 @@ NÃO usar KEYFINAL, tem lixo de matte). Processo: PIL normaliza alpha ×255/208 
 - Repo: **github.com/zeroonebit/zeroonebit.github.io** (user site → URL raiz), branch main
 - Deploy: GitHub Actions (`.github/workflows/deploy.yml`) — push em main → npm ci + build →
   Pages. Mesmo fluxo do Chapada: editou, commitou, push, ~1min no ar
+- ⚠️ PEGADINHA (resolvida 2026-07-21): repo `.github.io` liga Pages em `build_type=legacy`
+  (serve a RAIZ CRUA — index.html chamando /src/main.ts, sem CSS buildado) automaticamente.
+  Tem que forçar `gh api -X PUT .../pages -f build_type=workflow` pra usar o artifact do
+  Actions (o dist buildado). Sintoma: site aparece sem estilo nenhum (HTML cru serif).
 - Identidade git LOCAL do repo: Thiago Laranjeira / laranjeira.thico@gmail.com (igual Chapada)
 - Backups zip, .claude/ e tsbuildinfo ficam FORA do repo (.gitignore)
 - **Domínios (2026-07-21)**: principal = **zero-onebit.com** ✅ DNS configurado na GoDaddy
