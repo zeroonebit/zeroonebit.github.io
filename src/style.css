@@ -47,9 +47,9 @@ html, body { background: var(--bg); color: var(--fg); font-family: var(--sans); 
 
 /* ---------- intro scrollytelling ---------- */
 #intro { display: none; }
-html.intro-on #intro { display: block; height: 100vh; }
+html.intro-on #intro { display: block; height: 100vh; height: 100svh; }
 .intro-stage {
-  position: relative; height: 100vh;
+  position: relative; height: 100vh; height: 100svh; /* svh = viewport visível no mobile (fora a barra do navegador) */
   display: flex; align-items: center; justify-content: center;
   background: var(--bg);
 }
@@ -59,7 +59,8 @@ html.intro-on #intro { display: block; height: 100vh; }
   height: auto;
 }
 .intro-arrow {
-  position: absolute; bottom: 6vh; left: 50%; transform: translateX(-50%);
+  position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: calc(5svh + env(safe-area-inset-bottom, 0px)); /* acima da barra/notch do celular */
   display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
   color: var(--fg);
   opacity: 0; /* só aparece quando a animação termina */

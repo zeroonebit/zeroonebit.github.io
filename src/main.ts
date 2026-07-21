@@ -69,12 +69,16 @@ if (!reducedMotion) {
   if (sheet.complete) begin()
   else sheet.onload = begin
 
-  // gesto real durante a animação libera o som se o autoplay bloqueou
-  const gestureSfx = () => {
-    if (!sfxDone && !document.documentElement.classList.contains('intro-done')) trySfx()
+  // MOBILE bloqueia autoplay de áudio SEMPRE. O 1º gesto real do usuário
+  // (toque/scroll/tecla) libera e dispara o som — uma vez. No mobile o
+  // gesto costuma vir logo no início do scroll, então casa com a animação.
+  const gestureEvents = ['pointerdown', 'touchstart', 'keydown', 'wheel'] as const
+  const onFirstGesture = () => {
+    trySfx()
+    for (const ev of gestureEvents) window.removeEventListener(ev, onFirstGesture)
   }
-  for (const ev of ['pointerdown', 'keydown', 'touchend'] as const) {
-    window.addEventListener(ev, gestureSfx, { passive: true })
+  for (const ev of gestureEvents) {
+    window.addEventListener(ev, onFirstGesture, { passive: true })
   }
   // rolou antes de acabar? pula pro final — ninguém fica refém do intro
   window.addEventListener('scroll', () => {
