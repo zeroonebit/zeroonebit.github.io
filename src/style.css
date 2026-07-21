@@ -80,8 +80,9 @@ html.intro-done .intro-arrow { opacity: 1; }
 /* ---------- header (banner com a marca centralizada) ---------- */
 #top {
   position: sticky; top: 0; z-index: 10;
-  display: flex; flex-direction: column; align-items: center; gap: 0.55rem;
-  padding: 0.9rem 1.25rem;
+  display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1.4rem;
   background: var(--header-bg); backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--line);
   font-family: var(--mono); font-size: 0.78rem;
@@ -90,10 +91,15 @@ html.intro-done .intro-arrow { opacity: 1; }
 }
 /* durante o intro o header fica escondido; entra quando a animação completa */
 html.intro-on:not(.intro-done) #top { transform: translateY(-105%); }
-.brand { color: var(--fg); font-weight: 700; font-size: 0.95rem; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.5rem; }
-.brand-img { width: 24px; height: 24px; display: block; }
+.brand {
+  display: inline-flex; align-items: center; flex-shrink: 0;
+  line-height: 0; border-radius: 6px;
+  transition: transform 0.15s;
+}
+.brand:hover { transform: scale(1.08); }
+.brand-img { width: 34px; height: 34px; display: block; }
 
-#top nav { display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: center; justify-content: center; }
+#top nav { display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: center; justify-content: flex-end; }
 #top a { color: var(--dim); text-decoration: none; transition: color 0.15s; }
 #top a:hover { color: var(--blue-ink); }
 #lang-toggle {
