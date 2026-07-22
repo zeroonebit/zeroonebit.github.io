@@ -32,7 +32,6 @@ html[data-theme='dark'] {
   --line: rgba(255, 255, 255, 0.11);
   --header-bg: rgba(38, 41, 47, 0.88);
 }
-html[data-theme='dark'] .brand-img { filter: invert(1); }
 html { transition: background 0.3s; }
 body, #top, .real-card, .tool-card { transition: background 0.3s, color 0.3s, border-color 0.3s; }
 
